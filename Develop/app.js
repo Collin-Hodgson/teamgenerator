@@ -38,6 +38,21 @@ function manager() {
     },
   ]);
 }
+
+function team() {
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "teamList",
+      message: "Which team member would you like to add?",
+      choices: [
+        "Engineer",
+        "Intern",
+        "I do not have any more team members to add",
+      ],
+    },
+  ]);
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
