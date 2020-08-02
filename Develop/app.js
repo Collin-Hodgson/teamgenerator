@@ -156,3 +156,17 @@ function AddIntern() {
       NewEmployee();
     });
 }
+
+function GenerateHTML() {
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+  fs.writeFile(outputPath, render(team), function (err) {
+    if (err) throw err;
+    console.log(
+      "Your HTML has been generated and loaded into the output folder!"
+    );
+  });
+}
+
+NewEmployee();
