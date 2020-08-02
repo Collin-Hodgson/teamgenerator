@@ -13,46 +13,75 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-function manager() {
-  console.log("Build your team!");
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is the name of your manager?",
-    },
-    {
-      type: "input",
-      name: "Id",
-      message: "What is the ID of your manager?",
-    },
-    {
-      type: "input",
-      name: "email",
-      message: "What is the manager's email?",
-    },
-    {
-      type: "input",
-      name: "OfficeNumber",
-      message: "What is the office number of your manager?",
-    },
-  ]);
+function team() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "teamList",
+        message: "Which team member would you like to add?",
+        choices: [
+          "Manager",
+          "Engineer",
+          "Intern",
+          "I do not have any more team members to add",
+        ],
+      },
+    ])
+    .then((answers) => {
+      switch (answers.Employee) {
+        case "Manager":
+          manager();
+          break;
+        case "Engineer":
+          engineer();
+          break;
+        case "Intern":
+          intern();
+          break;
+        case "I do not have any more team members to add":
+          render(newTeam);
+          newHtml();
+      }
+    });
 }
 
-function team() {
-  inquirer.prompt([
-    {
-      type: "list",
-      name: "teamList",
-      message: "Which team member would you like to add?",
-      choices: [
-        "Engineer",
-        "Intern",
-        "I do not have any more team members to add",
-      ],
-    },
-  ]);
+function manager() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of your manager?",
+      },
+      {
+        type: "input",
+        name: "Id",
+        message: "What is the ID of your manager?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is the manager's email?",
+      },
+      {
+        type: "input",
+        name: "OfficeNumber",
+        message: "What is the office number of your manager?",
+      },
+    ])
+    .then((answers) => {
+      const manager = new Manager(
+        answers.name,
+        answers.id,
+        answers.email,
+        answers.officeNumber
+      );
+      newTeam.push(manager);
+      newManager();
+    });
 }
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
